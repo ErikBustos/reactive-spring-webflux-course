@@ -13,5 +13,4 @@ There is 2 programming models for building RESTFUL APIs :
 
 On this Repo, there is the 2 ways. As well there is Junit Test cases and Integration Test cases to easily test the project and quickly detect issues when developing more features to the APIs.
 
-
-![](/Users/erik.bustos/Documents/Projects/Spring Projects/SpringWebFlux projects/reactive-spring-webflux-2/Application Diagram.png)
+![](Application Diagram.png "Application Diagram")
