@@ -19,10 +19,10 @@ To apply Bean Validations:
   - [On the Controller function](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-info-service/src/main/java/com/reactivespring/controller/MoviesInfoController.java#L49), use @RequestBody and @Valid annotations.
   - [Use a Global Error handler](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-info-service/src/main/java/com/reactivespring/exceptionhandler/GlobalErrorHandler.java#L17) with the @ControllerAdvice annotation to handle the exceptions that are thrown as part of the validation 
 - On Functional Web:
-  - [On the Entity]() have validation annotations like @NotBlank, @NotNull
-  - On the Handler, have a javax validator property
-    - Use it with the onNext on your function
-    - Have a validate function , extract the constraintViolations, get all the error messages and throw a custom exception.
-  - Create a GlobalErrorHandler that implements the ErrorWebExceptionHandler.
-    - Check for a custom Exception and handle it.
+  - [On the Entity](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-review-service/src/main/java/com/reactivespring/domain/Review.java#L20) have validation annotations like @NotBlank, @NotNull
+  - On the Handler, have a [javax validator property](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-review-service/src/main/java/com/reactivespring/handler/ReviewHandler.java#L24)
+    - Use it with the [onNext on your function](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-review-service/src/main/java/com/reactivespring/handler/ReviewHandler.java#L34)
+    - Have a [validate function](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-review-service/src/main/java/com/reactivespring/handler/ReviewHandler.java#L77) , extract the constraintViolations, get all the error messages and throw a custom exception.
+  - Create a [GlobalErrorHandler](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-review-service/src/main/java/com/reactivespring/exceptionhandler/GlobalErrorHandler.java#L14) that implements the ErrorWebExceptionHandler.
+    - [Check for a custom Exception](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-review-service/src/main/java/com/reactivespring/exceptionhandler/GlobalErrorHandler.java#L22) and handle it.
 ![Application Diagram](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/ApplicationDiagram.png?raw=true)
