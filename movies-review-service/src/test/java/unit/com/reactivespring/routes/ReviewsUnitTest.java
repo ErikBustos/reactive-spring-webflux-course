@@ -135,6 +135,31 @@ public class ReviewsUnitTest {
     }
 
     @Test
+    void updateReview_404NotFound() {
+        //given
+
+        var reviewUpdate = new Review(null, 1L, "Not an Awesome Movie", 8.0);
+
+        when(reviewReactiveRepository.findById((String) any())).thenReturn(Mono.empty());
+        //when
+
+        webTestClient
+                .put()
+                .uri("/v1/reviews/{id}", "abc")
+                .bodyValue(reviewUpdate)
+                .exchange()
+                .expectStatus()
+                .isNotFound()
+                .expectBody(String.class)
+                .consumeWith(exchangeResult ->  {
+                    String errorMessage = exchangeResult.getResponseBody();
+                    assert errorMessage != null;
+                    assert errorMessage.contains("Review not found for the given ReviewId");
+                });
+
+    }
+
+    @Test
     void deleteReview() {
         //given
         var reviewId= "abc";

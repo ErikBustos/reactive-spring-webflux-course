@@ -70,7 +70,24 @@ public class ReviewsIntgTest {
         //then
     }
 
-    //                .GET("v1/reviews", reviewHandler::getReviews)
+    @Test
+    void addReview_validation() {
+        //given
+        Review review = new Review(null, null, "Awesome Movie", -9.0);
+
+        //when
+        webTestClient
+                .post()
+                .uri(REVIEWS_URL)
+                .bodyValue(review)
+                .exchange()
+                .expectStatus()
+                .isBadRequest()
+                .expectBody(String.class)
+                .isEqualTo("rating.movieInfoId : must not be null,rating.negative : rating is negative and please pass a non-negative value");
+
+        //then
+    }
 
     @Test
     void getReviews() {
@@ -146,6 +163,30 @@ public class ReviewsIntgTest {
                     Review updatedReview = movieReviewEntityExchangeResult.getResponseBody();
                     assert updatedReview != null;
                     assert updatedReview.getRating() == 9.5;
+                });
+
+        //then
+    }
+
+    @Test
+    void updateReview_404NotFound() {
+        //given
+        var review = new Review("123", 1L, "Awesome Movie", 7.0);
+        reviewReactiveRepository.save(review).block();
+
+        //when
+        webTestClient
+                .put()
+                .uri(REVIEWS_URL + "/{id}","1234")
+                .bodyValue(review)
+                .exchange()
+                .expectStatus()
+                .isNotFound()
+                .expectBody(String.class)
+                .consumeWith(exchangeResult ->  {
+                    String errorMessage = exchangeResult.getResponseBody();
+                    assert errorMessage != null;
+                    assert errorMessage.contains("Review not found for the given ReviewId");
                 });
 
         //then
