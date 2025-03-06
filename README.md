@@ -13,6 +13,8 @@ There is 2 programming models for building RESTFUL APIs :
 
 On this Repo, there is the 2 ways. As well there is Junit Test cases and Integration Test cases to easily test the project and quickly detect issues when developing more features to the APIs.
 
+As well, there is `WireMock` testing on service `movies-service` to have automatic Test Cases that simulates 4xx responses, 5xx responses, 2xx responses. All to test without the dependency of the other services. This can be found on the _**intg**_ test cases.
+
 To apply Bean Validations:
 - Annotated Controllers: 
   - [On the Entity](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-info-service/src/main/java/com/reactivespring/domain/MovieInfo.java#L23) with annotations like @NotBlank, @NotNull

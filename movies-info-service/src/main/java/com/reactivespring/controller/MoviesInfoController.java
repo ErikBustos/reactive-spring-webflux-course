@@ -29,13 +29,13 @@ public class MoviesInfoController {
         return moviesInfoService.getAllMovieInfos();
     }
 
-    @GetMapping("/movieinfos/{id}")
-    public Mono<MovieInfo> getMovieInfoById(@PathVariable String id) {
+    @GetMapping("/movieinfos2/{id}")
+    public Mono<MovieInfo> getMovieInfoById_approach2(@PathVariable String id) {
         return moviesInfoService.getMovieInfoById(id);
     }
 
-    @GetMapping("/movieinfos2/{id}")
-    public Mono<ResponseEntity<MovieInfo>> getMovieInfoById_approach2(@PathVariable("id") String id) {
+    @GetMapping("/movieinfos/{id}")
+    public Mono<ResponseEntity<MovieInfo>> getMovieInfoById(@PathVariable("id") String id) {
 
         return moviesInfoService.getMovieInfoById(id)
                 .map(movieInfo1 -> ResponseEntity.ok()
