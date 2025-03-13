@@ -7,11 +7,13 @@ import com.reactivespring.repository.ReviewReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Sinks;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -30,10 +32,15 @@ public class ReviewHandler {
         this.reviewReactiveRepository = reviewReactiveRepository;
     }
 
+    Sinks.Many<Review> reviewsSink = Sinks.many().replay().latest();
+
     public Mono<ServerResponse> addReview(ServerRequest request) {
         return request.bodyToMono(Review.class)
                 .doOnNext(this::validate)
                 .flatMap(reviewReactiveRepository::save)
+                .doOnNext(review -> {
+                    reviewsSink.tryEmitNext(review);
+                })
                 .flatMap(ServerResponse.status(HttpStatus.CREATED)::bodyValue);
     }
 
@@ -92,5 +99,12 @@ public class ReviewHandler {
 
     private static Mono<ServerResponse> buildReviewsResponse(Flux<Review> reviewsFlux) {
         return ServerResponse.ok().body(reviewsFlux, Review.class);
+    }
+
+    public Mono<ServerResponse> getReviewsStream(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_NDJSON)
+                .body(reviewsSink.asFlux(), Review.class)
+                .log();
     }
 }

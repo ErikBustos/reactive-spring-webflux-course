@@ -32,3 +32,4 @@ curl -i \
 curl -i http://localhost:8082/v1/movies/1
 curl -i http://localhost:8082/v1/movies/2
 
+curl -i http://localhost:8082/v1/movies/stream

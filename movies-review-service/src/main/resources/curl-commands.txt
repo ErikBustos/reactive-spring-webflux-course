@@ -20,6 +20,8 @@ GET-ALL-REVIEWS:
 ----------------
 curl -i http://localhost:8081/v1/reviews
 
+curl -i http://localhost:8081/v1/reviews/stream
+
 GET-ALL-REVIEWS-BY-MOVIE-INFO-ID:
 --------------------------------
 curl -i http://localhost:8081/v1/reviews?movieInfoId=1

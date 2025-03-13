@@ -84,6 +84,44 @@ class MoviesInfoControllerIntgTest {
     }
 
     @Test
+    void getAllMovieInfos_stream() {
+        //given
+        MovieInfo movieInfo = new MovieInfo(null, "Batman Begins1",
+                2005, List.of("Christian Bale", "Michael Cane"), LocalDate.parse("2005-06-15"));
+
+        webTestClient
+                .post()
+                .uri(MOVIES_INFO_URL)
+                .bodyValue(movieInfo)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(MovieInfo.class)
+                .consumeWith(movieInfoEntityExchangeResult -> {
+                    var savedMovieinfo = movieInfoEntityExchangeResult.getResponseBody();
+                    assert savedMovieinfo != null;
+                    assert savedMovieinfo.getMovieInfoId() != null;
+                });
+
+        //when
+        var moviesStreamFlux = webTestClient.get()
+                .uri(MOVIES_INFO_URL + "/stream")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .returnResult(MovieInfo.class)
+                .getResponseBody();
+
+        //then
+        StepVerifier.create(moviesStreamFlux)
+                .assertNext(movieInfo1 -> {
+                    assert movieInfo1.getMovieInfoId() != null;
+                })
+                .thenCancel()
+                .verify();
+    }
+
+    @Test
     void getMovieInfoByYear() {
         var uri = UriComponentsBuilder.fromUriString(MOVIES_INFO_URL)
                         .queryParam("year", 2005)
