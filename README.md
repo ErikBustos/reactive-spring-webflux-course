@@ -17,6 +17,11 @@ The 3rd Service named _MoviesService_ consumes both of the services, and impleme
 - It implements it on the [client](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-service/src/main/java/com/reactivespring/client/ReviewsRestClient.java#L57)
 - As well, there it uses `WireMock` testing on service `movies-service` to have automatic Test Cases that simulates 4xx responses, 5xx responses, 2xx responses. All to test without the dependency of the other services. This can be found on the [intg test cases](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-service/src/test/java/intg/com/reactivespring/controller/MoviesControllerIntgTest.java#L40).
 
+This course also Covers SSE(Server Sent Events) on WebFlux. This are events that the server sends to the clients.
+1. On the Server Controller: 
+   2. Add a [Sink](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-info-service/src/main/java/com/reactivespring/controller/MoviesInfoController.java#L22) , then have a [controller method that produces an NDJSON](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-info-service/src/main/java/com/reactivespring/controller/MoviesInfoController.java#L51)
+   3. Then 
+4. [This is an example Integration Test case](https://github.com/ErikBustos/reactive-spring-webflux-course/blob/main/movies-info-service/src/test/java/intg/com/reactivespring/controller/MoviesInfoControllerIntgTest.java#L87) to test and validate a stream controller.
 
 To apply Bean Validations:
 - Annotated Controllers: 
